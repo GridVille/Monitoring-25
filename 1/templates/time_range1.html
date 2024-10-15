@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data by Time Range</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        #sensorChart {
+            margin-top: 20px;
+            width: 100%;
+            height: 500px; /* Adjust height as needed */
+        }
+    </style>
+    <!-- Include Plotly.js library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Select Time Range for Sensor Data</h1>
+
+    <div>
+        <label for="fromTime">From:</label>
+        <input type="datetime-local" id="fromTime">
+        
+        <label for="toTime">To:</label>
+        <input type="datetime-local" id="toTime">
+        
+        <button onclick="fetchDataForRange()">Get Data</button>
+    </div>
+
+    <div id="sensorChart"></div>
+
+    <script>
+        function fetchDataForRange() {
+            var fromTime = document.getElementById('fromTime').value;
+            var toTime = document.getElementById('toTime').value;
+
+            if (!fromTime || !toTime) {
+                alert('Please select both a from and to time.');
+                return;
+            }
+
+            // Send AJAX request to the Flask server to fetch data
+            fetch(`/fetch_data_range?from=${fromTime}&to=${toTime}`)
+                .then(response => response.json())
+                .then(data => {
+                    // If there is an error, display it
+                    if (data.error) {
+                        alert(`Error fetching data: ${data.error}`);
+                        return;
+                    }
+
+                    // Prepare data for the plot
+                    const timeLabels = data.map(record => record.time);
+                    const sensor1Data = data.map(record => record.sensor_1);
+                    const sensor2Data = data.map(record => record.sensor_2);
+                    const sensor3Data = data.map(record => record.sensor_3);
+                    // Add more sensors as needed...
+
+                    // Create traces for each sensor
+                    const traces = [
+                        {
+                            x: timeLabels,
+                            y: sensor1Data,
+                            mode: 'lines',
+                            name: 'Sensor 1',
+                            line: { color: 'blue' }
+                        },
+                        {
+                            x: timeLabels,
+                            y: sensor2Data,
+                            mode: 'lines',
+                            name: 'Sensor 2',
+                            line: { color: 'red' }
+                        },
+                        {
+                            x: timeLabels,
+                            y: sensor3Data,
+                            mode: 'lines',
+                            name: 'Sensor 3',
+                            line: { color: 'green' }
+                        }
+                        // Add more sensor traces as needed...
+                    ];
+
+                    // Define layout for the plot
+                    const layout = {
+                        title: 'Sensor Data Over Time',
+                        xaxis: { title: 'Time' },
+                        yaxis: { title: 'Sensor Values' },
+                        showlegend: true
+                    };
+
+                    // Plot the data
+                    Plotly.newPlot('sensorChart', traces, layout);
+                })
+                .catch(error => {
+                    alert(`Error: ${error.message}`);
+                });
+        }
+    </script>
+</body>
+</html>

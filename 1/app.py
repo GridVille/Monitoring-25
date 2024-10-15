@@ -33,7 +33,7 @@ def index():
 # Route to serve the new HTML page
 @app.route('/time_range')
 def time_range():
-    return render_template('time_range.html')
+    return render_template('time_range1.html')
 
 # Existing endpoint to fetch data for a selected time range
 @app.route('/fetch_data_range')
@@ -74,7 +74,7 @@ def fetch_data_range():
 def fetch_data():
     try:
         # Fetch data from the sensors table
-        cursor.execute("SELECT * FROM sensor_data ORDER BY time DESC LIMIT 1;")
+        cursor.execute("SELECT * FROM sensor_data ORDER BY time DESC LIMIT 2;")
         records = cursor.fetchall()
 
         # Prepare data to return as JSON

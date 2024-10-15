@@ -54,7 +54,7 @@
 
             // Send AJAX request to the Flask server to fetch data
             fetch(`/fetch_data_range?from=${fromTime}&to=${toTime}`)
-                .then(response => response.json())
+                .then(response => response.json()) //turn response into json object to be worked with
                 .then(data => {
                     // If there is an error, display it
                     if (data.error) {
