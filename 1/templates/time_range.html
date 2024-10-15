@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data by Time Range</title>
+    <style>
+        /* Optional styling for better presentation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select Time Range for Sensor Data</h1>
+
+    <div>
+        <label for="fromTime">From:</label>
+        <input type="datetime-local" id="fromTime">
+        
+        <label for="toTime">To:</label>
+        <input type="datetime-local" id="toTime">
+        
+        <button onclick="fetchDataForRange()">Get Data</button>
+    </div>
+
+    <div id="dataDisplay"></div>
+
+    <script>
+        function fetchDataForRange() {
+            var fromTime = document.getElementById('fromTime').value;
+            var toTime = document.getElementById('toTime').value;
+
+            if (!fromTime || !toTime) {
+                alert('Please select both a from and to time.');
+                return;
+            }
+
+            // Send AJAX request to the Flask server to fetch data
+            fetch(`/fetch_data_range?from=${fromTime}&to=${toTime}`)
+                .then(response => response.json())
+                .then(data => {
+                    // If there is an error, display it
+                    if (data.error) {
+                        document.getElementById('dataDisplay').innerHTML = `<p>Error fetching data: ${data.error}</p>`;
+                        return;
+                    }
+
+                    // Create an HTML table to display the data
+                    let table = `<table>
+                        <tr>
+                            <th>Time</th>
+                            <th>Sensor 1</th>
+                            <th>Sensor 2</th>
+                            <th>Sensor 3</th>
+                            <th>Sensor 4</th>
+                            <th>Sensor 5</th>
+                            <th>Sensor 6</th>
+                            <th>Sensor 7</th>
+                            <th>Sensor 8</th>
+                            <th>Sensor 9</th>
+                            <th>Sensor 10</th>
+                        </tr>`;
+                    
+                    data.forEach(record => {
+                        table += `<tr>
+                            <td>${record.time}</td>
+                            <td>${record.sensor_1}</td>
+                            <td>${record.sensor_2}</td>
+                            <td>${record.sensor_3}</td>
+                            <td>${record.sensor_4}</td>
+                            <td>${record.sensor_5}</td>
+                            <td>${record.sensor_6}</td>
+                            <td>${record.sensor_7}</td>
+                            <td>${record.sensor_8}</td>
+                            <td>${record.sensor_9}</td>
+                            <td>${record.sensor_10}</td>
+                        </tr>`;
+                    });
+
+                    table += `</table>`;
+                    document.getElementById('dataDisplay').innerHTML = table;
+                })
+                .catch(error => {
+                    document.getElementById('dataDisplay').innerHTML = `<p>Error: ${error.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>

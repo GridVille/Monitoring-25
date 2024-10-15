@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata about the page -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltage and Current Monitoring</title>
+
+    <!-- Import Plotly.js for creating interactive graphs -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+    <!-- Import jQuery for easier AJAX requests and DOM manipulation -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- CSS to arrange graphs in a grid -->
+    <style>
+        /* Grid container for the graphs */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);  /* 3 columns layout */
+            grid-gap: 10px;  /* Space between the graphs */
+            padding: 10px;
+        }
+        
+        /* Each graph box will take equal space */
+        .graph-box {
+            width: 100%;
+            height: 300px;  /* Height of each graph */
+            border: 1px solid #ccc;  /* Optional border around each graph */
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-Time Voltage and Current Monitoring</h1>
+    
+    <!-- Grid container to hold the 9 graphs -->
+    <div class="grid-container">
+        <div id="graph1" class="graph-box"></div>
+        <div id="graph2" class="graph-box"></div>
+        <div id="graph3" class="graph-box"></div>
+        <div id="graph4" class="graph-box"></div>
+        <div id="graph5" class="graph-box"></div>
+        <div id="graph6" class="graph-box"></div>
+        <div id="graph7" class="graph-box"></div>
+        <div id="graph8" class="graph-box"></div>
+        <div id="graph9" class="graph-box"></div>
+    </div>
+
+    <script>
+        // Function to create a new graph in the given div
+        function createGraph(divId) {
+            var data = [
+                {
+                    x: [],
+                    y: [],
+                    mode: 'lines+markers',
+                    name: 'Voltage'
+                },
+                {
+                    x: [],
+                    y: [],
+                    mode: 'lines+markers',
+                    name: 'Current'
+                }
+            ];
+
+            var layout = {
+                title: 'Real-Time Voltage and Current',
+                xaxis: { title: 'Time' },
+                yaxis: { title: 'Value' }
+            };
+
+            Plotly.newPlot(divId, data, layout);
+        }
+
+        // Create all 9 graphs
+        for (let i = 1; i <= 9; i++) {
+            createGraph('graph' + i);
+        }
+
+        // Function to update the data on all graphs
+        function updateData() {
+            $.getJSON('/data', function(response) {
+                var time = response.time;
+                var voltage = response.voltage;
+                var current = response.current;
+
+                // Update each graph with the same data (you can adjust this for different data)
+                for (let i = 1; i <= 9; i++) {
+                    Plotly.extendTraces('graph' + i, {
+                        x: [[time], [time]],
+                        y: [[voltage], [current]]
+                    }, [0, 1]);
+
+                    // Optionally, relayout to limit the number of points shown
+                    var maxPoints = 20;
+                    var update = {
+                        xaxis: {
+                            range: [Math.max(0, response.x.length - maxPoints), response.x.length]
+                        }
+                    };
+                    Plotly.relayout('graph' + i, update);
+                }
+            });
+        }
+
+        // Update graphs every 2 seconds
+        setInterval(updateData, 2000);
+    </script>
+</body>
+</html>
