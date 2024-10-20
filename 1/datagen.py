@@ -4,9 +4,9 @@ import psycopg2
 
 # parameters to connect to TimescaleDB
 conn_params = {
-    'dbname': 'sensor_data',
+    'dbname': 'gridville',
     'user': 'postgres', 
-    'password': 'GridPassword26', 
+    'password': 'postgres', 
     'host': 'localhost',  #localhost as its local idk
     'port': 5432  # default PostgreSQL port
 }
@@ -43,7 +43,7 @@ def genData():
     # Insert data into TimescaleDB sensor_data
     try:
         cursor.execute("""
-        INSERT INTO sensor_data (
+        INSERT INTO sensor_data2 (
             time, sensor_1, sensor_2, sensor_3, sensor_4, sensor_5,
             sensor_6, sensor_7, sensor_8, sensor_9, sensor_10
         )

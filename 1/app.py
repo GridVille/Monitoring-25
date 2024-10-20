@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 # parameters to connect to TimescaleDB
 conn_params = {
-    'dbname': 'sensor_data',
+    'dbname': 'gridville',
     'user': 'postgres', 
-    'password': 'GridPassword26', 
+    'password': 'postgres', 
     'host': 'localhost',  #localhost as its local idk
     'port': 5432  # default PostgreSQL port
 }
@@ -43,7 +43,7 @@ def fetch_data_range():
 
     try:
         # Fetch data from the sensors table within the given time range
-        cursor.execute("SELECT * FROM sensor_data WHERE time >= %s AND time <= %s ORDER BY time ASC;", (from_time, to_time))
+        cursor.execute("SELECT * FROM sensor_data2 WHERE time >= %s AND time <= %s ORDER BY time ASC;", (from_time, to_time))
         records = cursor.fetchall()
 
         # Prepare data to return as JSON
@@ -74,7 +74,7 @@ def fetch_data_range():
 def fetch_data():
     try:
         # Fetch data from the sensors table
-        cursor.execute("SELECT * FROM sensor_data ORDER BY time DESC LIMIT 2;")
+        cursor.execute("SELECT * FROM sensor_data2 ORDER BY time DESC LIMIT 2;")
         records = cursor.fetchall()
 
         # Prepare data to return as JSON

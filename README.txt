@@ -6,4 +6,18 @@ app.py runs the webpage that visualzes, the templates contain different sites fo
 Note: to open the page with that shows data from/to open http://127.0.0.1:5000/time_range .
 
 myenv is a python virtual enviroment. to activate it run "source myenv/bin/activate" in root folder.
+
+CREATE TABLE sensor_data (
+    time TIMESTAMPZ NOT NULL,
+    sensor_1 DOUBLE PRECISION,
+    sensor_2 DOUBLE PRECISION,
+    sensor_3 DOUBLE PRECISION,
+    sensor_4 DOUBLE PRECISION,
+    sensor_5 DOUBLE PRECISION,
+    sensor_6 DOUBLE PRECISION,
+    sensor_7 DOUBLE PRECISION,
+    sensor_8 DOUBLE PRECISION,
+    sensor_9 DOUBLE PRECISION,
+    sensor_10 DOUBLE PRECISION,
+);
  
