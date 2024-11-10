@@ -20,4 +20,5 @@ CREATE TABLE sensor_data (
     sensor_9 DOUBLE PRECISION,
     sensor_10 DOUBLE PRECISION,
 );
- 
+
+The currently used templates are index1 and time_range1. The other are older versions
