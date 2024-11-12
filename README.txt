@@ -22,3 +22,7 @@ CREATE TABLE sensor_data (
 );
 
 The currently used templates are index1 and time_range1. The other are older versions
+
+
+-TODO:
+Make dependencies for python Virtual enviornoment.
