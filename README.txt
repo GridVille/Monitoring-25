@@ -26,3 +26,7 @@ The currently used templates are index1 and time_range1. The other are older ver
 
 -TODO:
 Make dependencies for python Virtual enviornoment.
+
+webpages:
+Check off for which sensors to get data from on time_range.
+
