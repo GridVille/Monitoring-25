@@ -53,7 +53,7 @@ datasources: # <string, required> name of the datasource. Required
     # <int> org id. will default to orgId 1 if not specified
     orgId: 1
     # <string> url
-    url: http://timescaledb:5432
+    url: timescaledb:5432
     # <string> database password, if used
     password: password
     # <string> database user, if used
@@ -61,13 +61,16 @@ datasources: # <string, required> name of the datasource. Required
     # <string> database name, if used
     database: timescaledb
     # <bool> enable/disable basic auth
+    
+    ssl_mode: false
+    
     basicAuth: false
     # <string> basic auth username, if used
     basicAuthUser:
     # <string> basic auth password, if used
     basicAuthPassword:
     # <bool> enable/disable with credentials headers
-    withCredentials:
+    withCredentials: false
     # <bool> mark as default datasource. Max one per org
     isDefault: false
     version: 1

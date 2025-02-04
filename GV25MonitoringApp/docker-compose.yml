@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 networks:
   monitoring:
@@ -34,7 +34,6 @@ services:
      # - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
 
-
   node-exporter:
     image: prom/node-exporter:latest
     container_name: node-exporter
@@ -67,6 +66,16 @@ services:
     networks:
       - monitoring
 
+  pythonworker:
+    build: /pythonworker/
+    restart: unless-stopped
+    container_name: pythonworker
+    volumes:
+      - type: bind 
+        source: /pythonworker/
+        target: /scripts/
+    networks:
+      - monitoring
 
 
 
