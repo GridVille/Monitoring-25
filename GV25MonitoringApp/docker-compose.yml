@@ -72,7 +72,7 @@ services:
     container_name: pythonworker
     volumes:
       - type: bind 
-        source: /pythonworker/
+        source: ./pythonworker/
         target: /scripts/
     networks:
       - monitoring
