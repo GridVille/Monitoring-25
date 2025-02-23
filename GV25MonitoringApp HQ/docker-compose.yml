@@ -1,4 +1,10 @@
 version: '3.9'
+
+networks:
+  monitoring:
+    driver: bridge
+
+
 services:
   prometheus:
     image: prom/prometheus
@@ -61,7 +67,7 @@ services:
       - monitoring
 
   pythonworker:
-    build: /pythonworker/
+    build: ./pythonworker/
     restart: unless-stopped
     container_name: pythonworker
     volumes:
@@ -83,3 +89,6 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     networks:
       - monitoring
+
+volumes:
+  prom_data:
