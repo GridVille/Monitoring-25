@@ -15,7 +15,7 @@ services:
       - 9090:9090
     restart: unless-stopped
     volumes:
-      - ./prometheus:/etc/prometheus
+      - ./prometheus/:/etc/prometheus
       - prom_data:/prometheus
     networks:
       - monitoring
@@ -31,7 +31,7 @@ services:
     networks:
       - monitoring
     volumes:
-     # - grafana_data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
 
   node-exporter:
@@ -62,7 +62,7 @@ services:
       POSTGRES_USER: timescaledb
       POSTGRES_PASSWORD: password
     volumes:
-      - /data/timescaledb:/var/lib/postgresql/data
+      - /data/timescaledb/:/var/lib/postgresql/data
     networks:
       - monitoring
 
@@ -92,26 +92,6 @@ services:
 
 
 
-#  loki:
-#    image: grafana/loki:latest
-#    container_name: loki
-#    ports:
-#      - 3100:3100
-#    #command: -config.file=/etc/loki/local-config.yaml
-#    networks:
-#      - monitoring
-#
-#  promtail:
-#      image: grafana/promtail:master
-#      container_name: promtail
-#      volumes:
-#        - ./promtail/config.yml:/etc/promtail/new-config.yaml
-#        - ./var/log:/var/log
-#      command: -config.file=/etc/promtail/new-config.yaml
-#      networks:
-#        - monitoring
-
-
-
 volumes:
   prom_data:
+  grafana_data:
